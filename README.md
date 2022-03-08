@@ -3,6 +3,7 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Unit Testing](#unit-testing)
+* [Postman API Collection](#postman-api-collection)
 
 ## General info
 This project is an employee salary management web service to facilitate management and analyse employees' salaries
@@ -35,3 +36,12 @@ Project is running with:
 * Choose UserServiceTests.java
 * Right click on the file and Run as Java Application
 * Application will run test in sequence
+
+## Postman API Collection
+* There are 6 sample APIs in the postman collection
+    1) /users/upload (CSV file upload in body) (POST)
+    2) /users (GET)
+    3) /users/{id} (GET)
+    4) /users (POST)
+    5) /users (PUT)
+    6) /users/{id} (DELETE)
