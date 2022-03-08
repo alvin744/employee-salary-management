@@ -1,9 +1,0 @@
-/Users/alvinkoo/Documents/EmployeeSalaryManagement-V1.0/EmployeeSalaryManagement/src/main/java/com/app/EmployeeSalaryManagement/controller/UserController.java
-/Users/alvinkoo/Documents/EmployeeSalaryManagement-V1.0/EmployeeSalaryManagement/src/main/java/com/app/EmployeeSalaryManagement/helper/UserHelper.java
-/Users/alvinkoo/Documents/EmployeeSalaryManagement-V1.0/EmployeeSalaryManagement/src/main/java/com/app/EmployeeSalaryManagement/EmployeeSalaryManagementApplication.java
-/Users/alvinkoo/Documents/EmployeeSalaryManagement-V1.0/EmployeeSalaryManagement/src/main/java/com/app/EmployeeSalaryManagement/service/UserService.java
-/Users/alvinkoo/Documents/EmployeeSalaryManagement-V1.0/EmployeeSalaryManagement/src/main/java/com/app/EmployeeSalaryManagement/message/ApiResponse.java
-/Users/alvinkoo/Documents/EmployeeSalaryManagement-V1.0/EmployeeSalaryManagement/src/main/java/com/app/EmployeeSalaryManagement/exception/FileUploadExceptionAdvice.java
-/Users/alvinkoo/Documents/EmployeeSalaryManagement-V1.0/EmployeeSalaryManagement/src/main/java/com/app/EmployeeSalaryManagement/repository/UserRepository.java
-/Users/alvinkoo/Documents/EmployeeSalaryManagement-V1.0/EmployeeSalaryManagement/src/main/java/com/app/EmployeeSalaryManagement/message/ResponseMessage.java
-/Users/alvinkoo/Documents/EmployeeSalaryManagement-V1.0/EmployeeSalaryManagement/src/main/java/com/app/EmployeeSalaryManagement/model/User.java

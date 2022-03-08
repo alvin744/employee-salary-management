@@ -46,7 +46,7 @@ class UserServiceTests {
         List<Order> orders = new ArrayList<Order>();
         orders.add(new Order(Sort.Direction.ASC, "ID"));
         String filterByName = "";
-        String[] sort =  {"ID", "ASC"};
+        String sort = "ID, ASC";
         when(userRepository.findUserBySalaryBetween(minSalary, maxSalary, Sort.by(orders))).thenReturn(Stream.of(new User("e0001", "hpotter", "Harry Potter", 1234.00, LocalDate.parse("2001-11-19"))).collect(Collectors.toList()));
         assertEquals(200, userService.getAllUsers(minSalary, maxSalary, offset, limit, filterByName, sort).getStatus());
     }

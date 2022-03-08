@@ -40,7 +40,7 @@ public class UserController {
                                     @RequestParam(required = false, defaultValue = "0") Integer offset,
                                     @RequestParam(required = false, defaultValue = "0") Integer limit,
                                     @RequestParam(required = false, defaultValue = "") String filterByName,
-                                    @RequestParam(required = false, defaultValue = "id,asc") String[] sort) {
+                                    @RequestParam(required = false, defaultValue = "id,asc") String sort) {
         return userService.getAllUsers(minSalary, maxSalary, offset, limit, filterByName, sort);
     }
 

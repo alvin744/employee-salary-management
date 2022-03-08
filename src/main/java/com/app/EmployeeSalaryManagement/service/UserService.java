@@ -101,21 +101,13 @@ public class UserService {
      * @param limit     the limit
      * @return the all users
      */
-    public ApiResponse getAllUsers(Double minSalary, Double maxSalary, Integer offset, Integer limit, String filterByName, String[] sort) {
+    public ApiResponse getAllUsers(Double minSalary, Double maxSalary, Integer offset, Integer limit, String filterByName, String sort) {
         ApiResponse apiResponse = new ApiResponse();
         try {
             List<Order> orders = new ArrayList<Order>();
-            if (sort[0].contains(",")) {
-              // will sort more than 2 fields
-              // sortOrder="field, direction"
-              for (String sortOrder : sort) {
-                String[] _sort = sortOrder.split(",");
-                orders.add(new Order(UserHelper.getSortDirection(_sort[1]), _sort[0]));
-              }
-            } else {
-              // sort=[field, direction]
-              orders.add(new Order(UserHelper.getSortDirection(sort[1]), sort[0]));
-            } 
+            String[] _sort = sort.split(",");
+            orders.add(new Order(UserHelper.getSortDirection(_sort[1]), _sort[0]));
+            
             List<User> usersList = userRepository.findUserBySalaryBetween(minSalary, maxSalary, Sort.by(orders));
             if (usersList.isEmpty()) {
                 apiResponse.setMessage("No such employee");
