@@ -54,14 +54,14 @@ Project is running with:
     2) http://localhost:8080/users/
         * Provide param with Key and Value Pair as follows:
 
-        | KEY           | Value         |
-        | ------------- |:-------------:|
-        | minSalary     | 0             |  Value can be in any number
-        | maxSalary     | 0             |  Value can be in any number
-        | filterByName  |               |  Value can be any employee name (Wildcard match)
-        | sort          | ID, ASC       |  Value can be any column name follow by a commas(,) then ASC or DESC
-        | offset        | 0             |  Value can be in any number
-        | limit         | 0             |  Value can be in any number
+        | KEY           | Value         |  Possible Value                                                       |
+        | ------------- |:-------------:| :--------------------------------------------------------------------:|
+        | minSalary     | 0             |  Value can be in any number                                           |
+        | maxSalary     | 0             |  Value can be in any number                                           |
+        | filterByName  |               |  Value can be any employee name (Wildcard match)                      |
+        | sort          | ID, ASC       |  Value can be any column name follow by a commas(,) then ASC or DESC  |
+        | offset        | 0             |  Value can be in any number                                           |
+        | limit         | 0             |  Value can be in any number                                           |
 
         Edit the value to filter for correct results
         
