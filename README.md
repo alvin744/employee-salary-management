@@ -42,18 +42,16 @@ Project is running with:
 
 ## Postman API Collection
 * There are 6 sample APIs in the postman collection
-    ### User Story 1
+    ### User Story 1 (POST)
     1) http://localhost:8080/users/upload 
-        (POST Method)
-        Provide CSV file in Body form-data
+        * Provide CSV file in Body form-data
         | KEY        | Value         |
         | ---------- |:-------------:|
         | file       | employees.csv |
 
-    ### User Story 2
+    ### User Story 2 (GET)
     2) http://localhost:8080/users/
-        (GET Method)
-        Provide param with Key and Value Pair as follows:
+        * Provide param with Key and Value Pair as follows:
         | KEY           | Value         |
         | ------------- |:-------------:|
         | minSalary     | 0             |  Value can be in any number
