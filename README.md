@@ -65,7 +65,6 @@ Project is running with:
 
         Edit the value to filter for correct results
     ### User Story 3 
-    The CRUD API
     
     #### Create User
     3) http://localhost:8080/users/ 
@@ -108,7 +107,7 @@ Project is running with:
 * Refer for employees.csv for sample data
 
 ## Future Enhancement for thoughts
-Add spring boot security for authentication and access control
-Replace tomcat with undertow to improve performance and memory usage
-Create asynchronous threading to improve application performance
+* Add spring boot security for authentication and access control
+* Replace tomcat with undertow to improve performance and memory usage
+* Create asynchronous threading to improve application performance
 
