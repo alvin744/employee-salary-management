@@ -4,6 +4,7 @@
 * [Setup](#setup)
 * [Unit Testing](#unit-testing)
 * [Postman API Collection](#postman-api-collection)
+* [Sample Data](#sample-data)
 
 ## General info
 This project is an employee salary management web service to facilitate management and analyse employees' salaries
@@ -45,3 +46,6 @@ Project is running with:
     4) /users (POST)
     5) /users (PUT)
     6) /users/{id} (DELETE)
+
+## Sample Data
+* Refer for employees.csv for sample data
