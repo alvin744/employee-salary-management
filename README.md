@@ -66,10 +66,9 @@ Project is running with:
         Edit the value to filter for correct results
     ### User Story 3 
     
-    #### Create User
-    3) http://localhost:8080/users/ 
-        (POST Method)
-        Provide JSON Object in Body form-data
+    #### Create User (POST)
+    3) http://localhost:8080/users/
+        * Provide JSON Object in Body form-data
         ```
         {
         "id": "e0011",
@@ -80,15 +79,13 @@ Project is running with:
         }
         ```
 
-    #### Retrieve User
-    4) http://localhost:8080/users/{id} 
-        (GET Method)
-        Replace {id} with an Employee ID e.g. http://localhost:8080/users/e0001
+    #### Retrieve User (GET)
+    4) http://localhost:8080/users/{id}
+        * Replace {id} with an Employee ID e.g. http://localhost:8080/users/e0001
     
-    #### Update User
-    5) http://localhost:8080/users 
-        (PUT Method)
-        Provide JSON Object in Body form-data
+    #### Update User (PUT)
+    5) http://localhost:8080/users
+        * Provide JSON Object in Body form-data
         ```
         {
         "id": "e0011",
@@ -98,10 +95,9 @@ Project is running with:
         "startDate": "2022-03-01"
         }
         ```
-    #### Delete User
-    6) http://localhost:8080/users/{id} 
-        (DELETE Method)
-        Replace {id} with an Employee ID e.g. http://localhost:8080/users/e0001
+    #### Delete User (DELETE)
+    6) http://localhost:8080/users/{id}
+        * Replace {id} with an Employee ID e.g. http://localhost:8080/users/e0001
 
 ## Sample Data
 * Refer for employees.csv for sample data
