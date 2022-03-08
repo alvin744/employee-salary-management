@@ -45,6 +45,7 @@ Project is running with:
     ### User Story 1 (POST)
     1) http://localhost:8080/users/upload 
         * Provide CSV file in Body form-data
+
         | KEY        | Value         |
         | ---------- |:-------------:|
         | file       | employees.csv |
@@ -52,6 +53,7 @@ Project is running with:
     ### User Story 2 (GET)
     2) http://localhost:8080/users/
         * Provide param with Key and Value Pair as follows:
+
         | KEY           | Value         |
         | ------------- |:-------------:|
         | minSalary     | 0             |  Value can be in any number
@@ -62,6 +64,7 @@ Project is running with:
         | limit         | 0             |  Value can be in any number
 
         Edit the value to filter for correct results
+        
     ### User Story 3 
     
     #### Create User (POST)
