@@ -28,3 +28,6 @@ maven-scripts/
 *.rar
 *.bak
 *.bk
+
+# Misc Files #
+*.DS_Store

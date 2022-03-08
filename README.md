@@ -14,6 +14,8 @@ Project is running with:
 * Spring-boot version: 2.6.4
 * Java version: 1.8.0_292
 * Apache Maven version: 3.8.4
+* H2 (embedded database)
+* JUnit 5
 	
 ## Setup
 * Download the zip or clone the Git repository.
@@ -40,12 +42,73 @@ Project is running with:
 
 ## Postman API Collection
 * There are 6 sample APIs in the postman collection
-    1) /users/upload (CSV file upload in body) (POST)
-    2) /users (GET)
-    3) /users/{id} (GET)
-    4) /users (POST)
-    5) /users (PUT)
-    6) /users/{id} (DELETE)
+    ### User Story 1
+    1) http://localhost:8080/users/upload 
+        (POST Method)
+        Provide CSV file in Body form-data
+        | KEY        | Value         |
+        | ---------- |:-------------:|
+        | file       | employees.csv |
+
+    ### User Story 2
+    2) http://localhost:8080/users/
+        (GET Method)
+        Provide param with Key and Value Pair as follows:
+        | KEY           | Value         |
+        | ------------- |:-------------:|
+        | minSalary     | 0             |  Value can be in any number
+        | maxSalary     | 0             |  Value can be in any number
+        | filterByName  |               |  Value can be any employee name (Wildcard match)
+        | sort          | ID, ASC       |  Value can be any column name follow by a commas(,) then ASC or DESC
+        | offset        | 0             |  Value can be in any number
+        | limit         | 0             |  Value can be in any number
+
+        Edit the value to filter for correct results
+    ### User Story 3 
+    The CRUD API
+    
+    #### Create User
+    3) http://localhost:8080/users/ 
+        (POST Method)
+        Provide JSON Object in Body form-data
+        ```
+        {
+        "id": "e0011",
+        "login": "esmadmin123",
+        "name": "system",
+        "salary": 4000.0,
+        "startDate": "2022-03-01"
+        }
+        ```
+
+    #### Retrieve User
+    4) http://localhost:8080/users/{id} 
+        (GET Method)
+        Replace {id} with an Employee ID e.g. http://localhost:8080/users/e0001
+    
+    #### Update User
+    5) http://localhost:8080/users 
+        (PUT Method)
+        Provide JSON Object in Body form-data
+        ```
+        {
+        "id": "e0011",
+        "login": "esmadmin999",
+        "name": "system9",
+        "salary": 3400.0,
+        "startDate": "2022-03-01"
+        }
+        ```
+    #### Delete User
+    6) http://localhost:8080/users/{id} 
+        (DELETE Method)
+        Replace {id} with an Employee ID e.g. http://localhost:8080/users/e0001
 
 ## Sample Data
 * Refer for employees.csv for sample data
+
+## Future Enhancement for thoughts
+Add spring boot security for authentication and access control
+Replace tomcat with undertow to improve performance and memory usage
+Create asynchronous threading to improve application performance
+
