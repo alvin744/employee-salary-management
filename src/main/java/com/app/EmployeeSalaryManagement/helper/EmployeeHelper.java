@@ -11,9 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +31,7 @@ public class EmployeeHelper {
     public static HashMap<String, Object> csvToRecords(InputStream is) {
         HashMap<String, Object> map = new HashMap<>();
         int rowCount = 0;
-        LocalDate startDate = null;
+        //LocalDate startDate = null;
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
@@ -57,11 +55,12 @@ public class EmployeeHelper {
                         return map;
                     }
                 }
+                /*
                 try {
                     startDate = LocalDate.parse(localDateFormat.format(diffDateFormat.parse(csvRecord.get("startDate"))));
                 } catch (ParseException e) {
                     startDate = LocalDate.parse(csvRecord.get("startDate"));
-                }
+                }*/
                 Employee user = new Employee(
                         csvRecord.get("id"),
                         csvRecord.get("login"),

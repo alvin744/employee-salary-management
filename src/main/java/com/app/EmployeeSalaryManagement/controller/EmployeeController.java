@@ -6,7 +6,6 @@ import com.app.EmployeeSalaryManagement.message.ResponseMessage;
 import com.app.EmployeeSalaryManagement.model.Employee;
 import com.app.EmployeeSalaryManagement.service.EmployeeService;
 
-import org.hibernate.jdbc.Expectations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
