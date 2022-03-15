@@ -1,8 +1,12 @@
+## Latest changes
+* Added Webpage UI CRU
+
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Unit Testing](#unit-testing)
+* [Webpage UI CRUD](#webpage-ui-crud)
 * [Postman API Collection](#postman-api-collection)
 * [Sample Data](#sample-data)
 
@@ -39,6 +43,9 @@ Project is running with:
 * Choose UserServiceTests.java
 * Right click on the file and Run as Java Application
 * Application will run test in sequence
+
+## Webpage UI CRUD
+* Launch webpage from http://localhost:8080/users/index
 
 ## Postman API Collection
 * There are 6 sample APIs in the postman collection

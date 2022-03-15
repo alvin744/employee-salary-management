@@ -1,6 +1,6 @@
 package com.app.EmployeeSalaryManagement.helper;
 
-import com.app.EmployeeSalaryManagement.model.User;
+import com.app.EmployeeSalaryManagement.model.Employee;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class UserHelper {
+public class EmployeeHelper {
     public static String TYPE = "text/csv";
     public static SimpleDateFormat diffDateFormat = new SimpleDateFormat("dd-MMM-yy");
     public static SimpleDateFormat localDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -37,7 +37,7 @@ public class UserHelper {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
-            List<User> users = new ArrayList<User>();
+            List<Employee> users = new ArrayList<Employee>();
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
@@ -62,14 +62,14 @@ public class UserHelper {
                 } catch (ParseException e) {
                     startDate = LocalDate.parse(csvRecord.get("startDate"));
                 }
-                User user = new User(
+                Employee user = new Employee(
                         csvRecord.get("id"),
                         csvRecord.get("login"),
                         csvRecord.get("name"),
                         Double.parseDouble(csvRecord.get("salary")),
-                        startDate
+                        csvRecord.get("startDate")
                 );
-                for (User existingUser : users
+                for (Employee existingUser : users
                 ) {
                     if (existingUser.getId().equalsIgnoreCase(user.getId())) {
                         map.put("message", "Bad input - Duplicate ID [Record no. : "+rowCount+" ]");

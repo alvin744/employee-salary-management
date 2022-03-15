@@ -1,9 +1,9 @@
 package com.app.EmployeeSalaryManagement.service;
 
-import com.app.EmployeeSalaryManagement.helper.UserHelper;
+import com.app.EmployeeSalaryManagement.helper.EmployeeHelper;
 import com.app.EmployeeSalaryManagement.message.ApiResponse;
-import com.app.EmployeeSalaryManagement.model.User;
-import com.app.EmployeeSalaryManagement.repository.UserRepository;
+import com.app.EmployeeSalaryManagement.model.Employee;
+import com.app.EmployeeSalaryManagement.repository.EmployeeRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,25 +18,26 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * The type User service.
+ * The type Employee service.
  */
 @Service
-public class UserService {
+public class EmployeeService {
 
-    private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
 
     /**
-     * Instantiates a new User service.
+     * Instantiates a new Employee service.
      *
-     * @param userRepository the user repository
+     * @param employeeRepository the employee repository
      */
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
     /**
@@ -52,8 +53,8 @@ public class UserService {
         try {
             String message = "";
             HttpStatus status = null;
-            List<User> users = new ArrayList<>();
-            HashMap<String, Object> objectHashMap = UserHelper.csvToRecords(file.getInputStream());
+            List<Employee> employees = new ArrayList<>();
+            HashMap<String, Object> objectHashMap = EmployeeHelper.csvToRecords(file.getInputStream());
             JSONObject jsonObject = new JSONObject(objectHashMap);
             if (!jsonObject.getString("message").isEmpty()) {
                 apiResponse.setMessage(jsonObject.getString("message"));
@@ -63,16 +64,16 @@ public class UserService {
 
             JSONArray jsonArray = jsonObject.getJSONArray("result");
             for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject userJsonObject = jsonArray.getJSONObject(i);
-                User user = new User();
-                user.setId(userJsonObject.getString("id"));
-                user.setLogin(userJsonObject.getString("login"));
-                user.setName(userJsonObject.getString("name"));
-                user.setSalary(userJsonObject.getDouble("salary"));
-                user.setStartDate(LocalDate.parse(userJsonObject.getString("startDate")));
-                users.add(user);
-                User existingUser = userRepository.findUserByIdOrLogin(user.getId(), user.getLogin());
-                if(existingUser != null){
+                JSONObject employeeJsonObject = jsonArray.getJSONObject(i);
+                Employee employee = new Employee();
+                employee.setId(employeeJsonObject.getString("id"));
+                employee.setLogin(employeeJsonObject.getString("login"));
+                employee.setName(employeeJsonObject.getString("name"));
+                employee.setSalary(employeeJsonObject.getDouble("salary"));
+                employee.setStartDate(employeeJsonObject.getString("startDate"));
+                employees.add(employee);
+                Employee existingEmployee = employeeRepository.findEmployeeByIdOrLogin(employee.getId(), employee.getLogin());
+                if(existingEmployee != null){
                     message = "Success but no data updated.";
                     status = HttpStatus.OK;
                 } else {
@@ -80,7 +81,7 @@ public class UserService {
                     status = HttpStatus.CREATED;
                 }
             }
-            userRepository.saveAll(users);
+            employeeRepository.saveAll(employees);
             apiResponse.setMessage(message);
             apiResponse.setStatus(status.value());
             return apiResponse;
@@ -93,27 +94,27 @@ public class UserService {
     }
 
     /**
-     * Gets all users.
+     * Gets all employees.
      *
      * @param minSalary the min salary
      * @param maxSalary the max salary
      * @param offset    the offset
      * @param limit     the limit
-     * @return the all users
+     * @return the all employees
      */
-    public ApiResponse getAllUsers(Double minSalary, Double maxSalary, Integer offset, Integer limit, String filterByName, String sort) {
+    public ApiResponse getAllEmployees(Double minSalary, Double maxSalary, Integer offset, Integer limit, String filterByName, String sort) {
         ApiResponse apiResponse = new ApiResponse();
         try {
             List<Order> orders = new ArrayList<Order>();
             String[] _sort = sort.split(",");
-            orders.add(new Order(UserHelper.getSortDirection(_sort[1]), _sort[0]));
+            orders.add(new Order(EmployeeHelper.getSortDirection(_sort[1]), _sort[0]));
             
-            List<User> usersList = userRepository.findUserBySalaryBetween(minSalary, maxSalary, Sort.by(orders));
-            if (usersList.isEmpty()) {
+            List<Employee> employeesList = employeeRepository.findEmployeeBySalaryBetween(minSalary, maxSalary, Sort.by(orders));
+            if (employeesList.isEmpty()) {
                 apiResponse.setMessage("No such employee");
                 apiResponse.setResults(null);
             } else {
-                if (offset > usersList.size()) {
+                if (offset > employeesList.size()) {
                     apiResponse.setMessage("We don't have that much records in our database, Kindly change the offset value");
                     apiResponse.setResults(null);
                 } else if (offset < 0){
@@ -122,14 +123,14 @@ public class UserService {
                         apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
                         return apiResponse;
                 } else {
-                    List<User> tempList = new ArrayList<>();
-                    for (int i = offset; i <= usersList.size(); i++) {
+                    List<Employee> tempList = new ArrayList<>();
+                    for (int i = offset; i <= employeesList.size(); i++) {
                         try {
                             if(filterByName.equalsIgnoreCase("")){
-                                tempList.add(usersList.get(i));
+                                tempList.add(employeesList.get(i));
                             } else {
-                                if(usersList.get(i).getName().toLowerCase().contains(filterByName.trim().toLowerCase())){
-                                    tempList.add(usersList.get(i));
+                                if(employeesList.get(i).getName().toLowerCase().contains(filterByName.trim().toLowerCase())){
+                                    tempList.add(employeesList.get(i));
                                 }
                             }
 
@@ -137,7 +138,7 @@ public class UserService {
                             break;
                         }
                     }
-                    List<User> tempList2 = new ArrayList<>();
+                    List<Employee> tempList2 = new ArrayList<>();
                     if (limit > 0) {
                         for (int i = 0; i < limit; i++) {
                             tempList2.add(tempList.get(i));
@@ -168,17 +169,17 @@ public class UserService {
     }
 
     /**
-     * Gets user by id.
+     * Gets employee by id.
      *
-     * @param userId the user id
-     * @return the user by id
+     * @param employeeId the employee id
+     * @return the employee by id
      */
-    public ApiResponse getUserById(String userId) {
+    public ApiResponse getEmployeeById(String employeeId) {
         ApiResponse apiResponse = new ApiResponse();
         try {
-            User user = userRepository.findUserById(userId);
-            if (null != user) {
-                apiResponse.setResults(user);
+            Employee employee = employeeRepository.findEmployeeById(employeeId);
+            if (null != employee) {
+                apiResponse.setResults(employee);
                 apiResponse.setMessage("Success but no data updated");
                 apiResponse.setStatus(HttpStatus.OK.value());
             } else {
@@ -196,52 +197,52 @@ public class UserService {
     }
 
     /**
-     * Add new User Service
+     * Add new Employee Service
      *
-     * @param user the user
+     * @param employee the employee
      * @return the api response
      */
-    public ApiResponse addUser(User user) {
+    public ApiResponse addEmployee(Employee employee) {
         ApiResponse apiResponse = new ApiResponse();
         try {
-            if (user.getId().equalsIgnoreCase("")) {
+            if (employee.getId().equalsIgnoreCase("")) {
                 apiResponse.setMessage("Invalid ID");
                 apiResponse.setResults(null);
                 apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-            } else if (user.getLogin().equalsIgnoreCase("")) {
+            } else if (employee.getLogin().equalsIgnoreCase("")) {
                 apiResponse.setMessage("Invalid Login");
                 apiResponse.setResults(null);
                 apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-            } else if (user.getName().equalsIgnoreCase("")) {
+            } else if (employee.getName().equalsIgnoreCase("")) {
                 apiResponse.setMessage("Invalid Name");
                 apiResponse.setResults(null);
                 apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-            } else if (user.getSalary().longValue() < 0) {
+            } else if (employee.getSalary().longValue() < 0) {
                 apiResponse.setMessage("Invalid Salary");
                 apiResponse.setResults(null);
                 apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-            } else if (user.getStartDate() == null) {
+            } else if (employee.getStartDate() == null) {
                 apiResponse.setMessage("Invalid Date");
                 apiResponse.setResults(null);
                 apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
             } else {
-                User existingUser = userRepository.findUserById(user.getId());
-                if(existingUser != null){
+                Employee existingEmployee = employeeRepository.findEmployeeById(employee.getId());
+                if(existingEmployee != null){
                     apiResponse.setMessage("Employee ID already exists");
                     apiResponse.setResults(null);
                     apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
                     return apiResponse;
                 }
-                existingUser = userRepository.findUserByLogin(user.getLogin());
-                if(existingUser != null){
+                existingEmployee = employeeRepository.findEmployeeByLogin(employee.getLogin());
+                if(existingEmployee != null){
                     apiResponse.setMessage("Employee login not unique");
                     apiResponse.setResults(null);
                     apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
                     return apiResponse;
                 }
-                userRepository.save(user);
+                employeeRepository.save(employee);
                 apiResponse.setMessage("Successfully created");
-                apiResponse.setResults(user);
+                apiResponse.setResults(employee);
                 apiResponse.setStatus(HttpStatus.CREATED.value());
             }
             return apiResponse;
@@ -254,46 +255,46 @@ public class UserService {
     }
 
     /**
-     * Update the User Service.
+     * Update the Employee Service.
      *
-     * @param user the user
+     * @param employee the employee
      * @return the api response
      */
-    public ApiResponse updateUser(User user) {
+    public ApiResponse updateEmployee(Employee employee) {
         ApiResponse apiResponse = new ApiResponse();
         try {
-            if (user.getLogin().equalsIgnoreCase("")) {
+            if (employee.getLogin().equalsIgnoreCase("")) {
                 apiResponse.setMessage("Invalid Login");
                 apiResponse.setResults(null);
                 apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-            } else if (user.getName().equalsIgnoreCase("")) {
+            } else if (employee.getName().equalsIgnoreCase("")) {
                 apiResponse.setMessage("Invalid Name");
                 apiResponse.setResults(null);
                 apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-            } else if (user.getSalary().longValue() < 0) {
+            } else if (employee.getSalary().longValue() < 0) {
                 apiResponse.setMessage("Invalid Salary");
                 apiResponse.setResults(null);
                 apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
-            } else if (user.getStartDate() == null) {
+            } else if (employee.getStartDate() == null) {
                 apiResponse.setMessage("Invalid Date");
                 apiResponse.setResults(null);
                 apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
             } else {
-                User existingUser = userRepository.findUserByLogin(user.getLogin());
-                if(existingUser != null){
+                Employee existingEmployee = employeeRepository.findEmployeeByLogin(employee.getLogin());
+                if(existingEmployee != null){
                     apiResponse.setMessage("Employee login not unique");
                     apiResponse.setResults(null);
                     apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
                     return apiResponse;
                 }
-                existingUser = userRepository.findUserById(user.getId());
-                if (null != existingUser) {
-                    existingUser.setLogin(user.getLogin());
-                    existingUser.setName(user.getName());
-                    existingUser.setSalary(user.getSalary());
-                    existingUser.setStartDate(user.getStartDate());
-                    userRepository.save(existingUser);
-                    apiResponse.setResults(existingUser);
+                existingEmployee = employeeRepository.findEmployeeById(employee.getId());
+                if (null != existingEmployee) {
+                    existingEmployee.setLogin(employee.getLogin());
+                    existingEmployee.setName(employee.getName());
+                    existingEmployee.setSalary(employee.getSalary());
+                    existingEmployee.setStartDate(employee.getStartDate());
+                    employeeRepository.save(existingEmployee);
+                    apiResponse.setResults(existingEmployee);
                     apiResponse.setStatus(HttpStatus.CREATED.value());
                     apiResponse.setMessage("Successfully Updated");
                 } else {
@@ -312,17 +313,17 @@ public class UserService {
     }
 
     /**
-     * Delete user by id api response.
+     * Delete employee by id api response.
      *
-     * @param userId the user id
+     * @param employeeId the employee id
      * @return the api response
      */
-    public ApiResponse deleteUserById(String userId) {
+    public ApiResponse deleteEmployeeById(String employeeId) {
         ApiResponse apiResponse = new ApiResponse();
         try {
-            User user = userRepository.findUserById(userId);
-            if (null != user) {
-                userRepository.delete(user);
+            Employee employee = employeeRepository.findEmployeeById(employeeId);
+            if (null != employee) {
+                employeeRepository.delete(employee);
                 apiResponse.setMessage("Successfully deleted");
             } else {
                 apiResponse.setMessage("No such employee");
@@ -336,5 +337,30 @@ public class UserService {
             apiResponse.setStatus(HttpStatus.BAD_REQUEST.value());
             return apiResponse;
         }
+    }
+
+    public List<Employee> getAllEmployees() {
+
+        return employeeRepository.findAll();
+    }
+
+    public void saveEmployee(Employee employee) {
+
+        try {
+            employeeRepository.save(employee);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+    }
+
+    public Employee getEmployee(String id) {
+    
+        return employeeRepository.findEmployeeById(id);
+    }
+
+    public void deleteEmployee(Employee employee) {
+
+        employeeRepository.delete(employee);
     }
 }

@@ -1,8 +1,8 @@
 package com.app.EmployeeSalaryManagement;
 
-import com.app.EmployeeSalaryManagement.model.User;
-import com.app.EmployeeSalaryManagement.repository.UserRepository;
-import com.app.EmployeeSalaryManagement.service.UserService;
+import com.app.EmployeeSalaryManagement.model.Employee;
+import com.app.EmployeeSalaryManagement.repository.EmployeeRepository;
+import com.app.EmployeeSalaryManagement.service.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +23,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 /**
- * The User service tests.
+ * The Employee service tests.
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
-class UserServiceTests {
+class EmployeeServiceTests {
     @Autowired
-    private UserService userService;
+    private EmployeeService userService;
     @MockBean
-    private UserRepository userRepository;
+    private EmployeeRepository userRepository;
 
     /**
      * Gets all users test.
      */
     @Test
-    void getAllUsersTest() {
+    void getAllEmployeesTest() {
         Double minSalary = 0.0;
         Double maxSalary = 4000.0;
         Integer offset = 0;
@@ -47,51 +47,51 @@ class UserServiceTests {
         orders.add(new Order(Sort.Direction.ASC, "ID"));
         String filterByName = "";
         String sort = "ID, ASC";
-        when(userRepository.findUserBySalaryBetween(minSalary, maxSalary, Sort.by(orders))).thenReturn(Stream.of(new User("e0001", "hpotter", "Harry Potter", 1234.00, LocalDate.parse("2001-11-19"))).collect(Collectors.toList()));
-        assertEquals(200, userService.getAllUsers(minSalary, maxSalary, offset, limit, filterByName, sort).getStatus());
+        when(userRepository.findEmployeeBySalaryBetween(minSalary, maxSalary, Sort.by(orders))).thenReturn(Stream.of(new Employee("e0001", "hpotter", "Harry Potter", 1234.00, ("2001-11-19"))).collect(Collectors.toList()));
+        assertEquals(200, userService.getAllEmployees(minSalary, maxSalary, offset, limit, filterByName, sort).getStatus());
     }
 
     /**
      * Gets users by id test.
      */
     @Test
-    void getUsersByIdTest() {
+    void getEmployeesByIdTest() {
         String id = "e0001";
-        User user = new User("e0001", "hpotter", "Harry Potter", 1234.00, LocalDate.parse("2001-11-19"));
-        when(userRepository.findUserById(id)).thenReturn(user);
-        assertEquals(user, userService.getUserById(id).getResults());
+        Employee user = new Employee("e0001", "hpotter", "Harry Potter", 1234.00, ("2001-11-19"));
+        when(userRepository.findEmployeeById(id)).thenReturn(user);
+        assertEquals(user, userService.getEmployeeById(id).getResults());
     }
 
     /**
      * Save user test.
      */
     @Test
-    void saveUserTest() {
-        User user = new User("e0001", "hpotter", "Harry Potter", 1234.00, LocalDate.parse("2001-11-19"));
+    void saveEmployeeTest() {
+        Employee user = new Employee("e0001", "hpotter", "Harry Potter", 1234.00, ("2001-11-19"));
         when(userRepository.save(user)).thenReturn(user);
-        assertEquals(user, userService.addUser(user).getResults());
+        assertEquals(user, userService.addEmployee(user).getResults());
     }
 
     /**
      * Delete user by id test.
      */
     @Test
-    void deleteUserByIdTest() {
+    void deleteEmployeeByIdTest() {
         String id = "e0001";
-        User user = new User("e0001", "hpotter", "Harry Potter", 1234.00, LocalDate.parse("2001-11-19"));
+        Employee user = new Employee("e0001", "hpotter", "Harry Potter", 1234.00, ("2001-11-19"));
         when(userRepository.getById(id)).thenReturn(user);
-        assertEquals(200, userService.deleteUserById(user.getId()).getStatus());
+        assertEquals(200, userService.deleteEmployeeById(user.getId()).getStatus());
     }
 
     /**
      * Update user test.
      */
     @Test
-    void updateUserTest() {
-        User oldUser = new User("e0001", "hpotter", "Harry Potter", 1234.00, LocalDate.parse("2001-11-19"));
-        User updatedUser = new User("e0001", "hpotter", "Harry Potter Updated", 1234.00, LocalDate.parse("2001-11-19"));
-        when(userRepository.findUserById(updatedUser.getId())).thenReturn(oldUser);
-        assertEquals(201, userService.updateUser(updatedUser).getStatus());
+    void updateEmployeeTest() {
+        Employee oldEmployee = new Employee("e0001", "hpotter", "Harry Potter", 1234.00, ("2001-11-19"));
+        Employee updatedEmployee = new Employee("e0001", "hpotter", "Harry Potter Updated", 1234.00, ("2001-11-19"));
+        when(userRepository.findEmployeeById(updatedEmployee.getId())).thenReturn(oldEmployee);
+        assertEquals(201, userService.updateEmployee(updatedEmployee).getStatus());
     }
 
 }

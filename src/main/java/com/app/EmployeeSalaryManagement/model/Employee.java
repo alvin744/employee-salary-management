@@ -7,13 +7,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * The type User.
  */
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "employee")
+public class Employee {
     @Id
     @Column(name = "id", unique = true)
     @NotBlank
@@ -29,12 +30,12 @@ public class User {
     private Double salary;
     @Column(name = "startDate")
     @NotNull
-    private LocalDate startDate;
+    private String startDate;
 
     /**
      * Instantiates a new User.
      */
-    public User() {
+    public Employee() {
     }
 
     /**
@@ -46,7 +47,7 @@ public class User {
      * @param salary    the salary
      * @param startDate the start date
      */
-    public User(String id, String login, String name, Double salary, LocalDate startDate) {
+    public Employee(String id, String login, String name, Double salary, String startDate) {
         this.id = id;
         this.login = login;
         this.name = name;
@@ -131,7 +132,7 @@ public class User {
      *
      * @return the start date
      */
-    public LocalDate getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
@@ -140,7 +141,7 @@ public class User {
      *
      * @param startDate the start date
      */
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 }
